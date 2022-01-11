@@ -1,9 +1,3 @@
-3 Indicators in 1
-
--Momentum Cloud attuned to the 8/50 emas and blue ema reversal line. If price is above bullish and price below bearish momentum.
--Reversal Channel is ATR channel using the 8 ema keltner channel.
--Modified Ichi Cloud only kept aspects of support and resistance to determine any nearby impinging resistance or possible support and removed some ichi components.
-
 //@version=1
 
 //Momentum Cloud
