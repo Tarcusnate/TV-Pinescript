@@ -1,0 +1,75 @@
+3 Indicators in 1
+
+-Momentum Cloud attuned to the 8/50 emas and blue ema reversal line. If price is above bullish and price below bearish momentum.
+-Reversal Channel is ATR channel using the 8 ema keltner channel.
+-Modified Ichi Cloud only kept aspects of support and resistance to determine any nearby impinging resistance or possible support and removed some ichi components.
+
+//@version=1
+
+//Momentum Cloud
+indicator(title="Relative Strength Volatility Reversal Channel", shorttitle="RSVRC", overlay=true)
+MOMOconvP = input.int(8, minval=1, title="Momentum1")
+MOMObaseP = input.int(50, minval=1, title="Momentum2")
+MOMOlaggingSpan2P = input.int(8, minval=1, title="Momentum3")
+projection = input.int(1, minval=1, title="Projection")
+donchian(len) => math.avg(ta.lowest(len), ta.highest(len))
+MomoCLine = donchian(MOMOconvP)
+MomoBLine = donchian(MOMObaseP)
+MLine1 = math.avg(MomoCLine, MomoBLine)
+MLine2 = donchian(MOMOlaggingSpan2P)
+p1 = plot(MLine1, offset = projection - 1, color=#3179f5, transp=15, linewidth=2,
+	 title="Momentum Cloud 8/50")
+p2 = plot(MLine2, offset = projection - 1, color=#3179f5, transp=1, linewidth=2,
+	 title="Momentum Cloud 8DC")
+fill(p1, p2, color = MLine1 > MLine2 ? color.rgb(33, 150, 243, 60) : color.rgb(33, 150, 243, 60), title="Momentum Cloud")
+
+
+//Reversal Channel
+length = input.int(8, minval=1)
+mult = input(2.0, "Multiplier")
+src = input(close, title="Source")
+exp = input(true, "Use Exponential MA")
+BandsStyle = input.string("Average True Range", options = ["Average True Range", "True Range", "Range"], title="Bands Style")
+atrlength = input(10, "ATR Length")
+esma(source, length)=>
+	s = ta.sma(source, length)
+	e = ta.ema(source, length)
+	exp ? e : s
+ma = esma(src, length)
+rangema = BandsStyle == "True Range" ? ta.tr(true) : BandsStyle == "Average True Range" ? ta.atr(atrlength) : ta.rma(high - low, length)
+upper = ma + rangema * mult
+lower = ma - rangema * mult
+u = plot(upper, color=#388e3c, transp=15, linewidth=3, title="ATR High")
+plot(ma, color=#0c3299, transp=0, linewidth=4, title="EM8Rev")
+l = plot(lower, color=#f7525f, transp=15, linewidth=3, title="ATR Low")
+fill(u, l, color=#000000, transp=100, title="ATR Channel")
+
+
+//RMA retracement bottom
+len1a = input.int(1, minval=1, title="TRHigh")
+src1a = input(high)
+out1a = ta.rma(src1a, len1a)
+hline1=plot(out1a, title="TRHigh", color=#000000, transp=15, linewidth=2)
+
+len1b = input.int(1, minval=1, title="TRLow")
+src1b = input(low)
+out1b = ta.rma(src1b, len1b)
+hline2=plot(out1b, title="TRLow", color=#000000, transp=15, linewidth=2)
+
+fill(hline1, hline2, color=#000000, transp=100, title="Trading Range")
+
+//Ichimoku S/R
+conversionPeriods = input.int(20, minval=1, title="Conversion Line Length")
+basePeriods = input.int(60, minval=1, title="Base Line Length")
+laggingSpan2Periods = input.int(120, minval=1, title="Leading Span B Length")
+displacement = input.int(1, minval=1, title="Displacement")
+donchian2(len) => math.avg(ta.lowest(len), ta.highest(len))
+conversionLine = donchian2(conversionPeriods)
+baseLine = donchian2(basePeriods)
+leadLine1 = math.avg(conversionLine, baseLine)
+leadLine2 = donchian2(laggingSpan2Periods)
+p3 = plot(leadLine1, offset = displacement - 1, color=#1b5e20, transp=15, linewidth=2,
+	 title="Ichi S/R A")
+p4 = plot(leadLine2, offset = displacement - 1, color=#b22833, transp=15, linewidth=2,
+	 title="Ichi S/R B")
+fill(p3, p4, color = leadLine1 > leadLine2 ? color.rgb(67, 160, 71, 60) : color.rgb(244, 67, 54, 60), title="Ichi Cloud")
