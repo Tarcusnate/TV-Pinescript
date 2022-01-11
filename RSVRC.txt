@@ -1,4 +1,4 @@
-//@version=1
+//@version=5
 
 //Momentum Cloud
 indicator(title="Relative Strength Volatility Reversal Channel", shorttitle="RSVRC", overlay=true)
