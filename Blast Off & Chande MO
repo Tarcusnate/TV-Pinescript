@@ -56,7 +56,7 @@ bomplot = plot(bom, color=bomcolor, transp=40, style=area, title="Volume")
 plot(sig, color=sigcolor, transp=5, style=line, linewidth=3, title="Volume Trend")
 
 
-//Chande (addon by Tarcus)
+//Chande (addon)
 
 length = input(5, minval=1, title="Chande MO")
 src = input(ohlc4, "Chande Source", type = source)
