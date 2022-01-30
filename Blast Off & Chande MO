@@ -1,0 +1,84 @@
+//@version=3
+study(title="Blast Off Momentum [DW]", shorttitle="Blast off & Chande MO", overlay=false)
+//by Donovan Wall
+
+//This study is an alternative experimental interpretation of the Blast Off Indicator by Larry Williams.
+//This formula takes positive and negative magnitudes rather than the absolute value. The result is then smoothed with an ema, and twice smoothed to provide a signal line.
+
+//------------------------------------------------------------------------------------------------------------------------------------------------------------------
+//Updates:
+
+//Simple housekeeping. Cleaned up the code a bit.
+
+//Aesthetic Updates:
+//-> Changed BOM's plot to columns
+//-> Added bar colorization
+
+//------------------------------------------------------------------------------------------------------------------------------------------------------------------
+//Inputs
+//------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+//Periods
+per = input(defval=3, minval=1, title="Blast Off Periods")
+
+//Signal Period
+sigper = input(defval=3, minval=1, title="Momentum Line")
+
+//Threshold Distance
+tdist = input(defval=10, minval=0, title="Threshold/Resistance")
+
+//------------------------------------------------------------------------------------------------------------------------------------------------------------------
+//Definitions
+//------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+//Blast Off Momentum
+BOM(t1, t2)=>
+    ocrng = close - open
+    hlrng = high - low
+    bo    = ocrng/hlrng*100
+    BOM   = ema(bo, t1)
+    SIG   = ema(BOM, t2)
+    [BOM, SIG]
+[bom, sig] = BOM(per, sigper)
+
+//Color
+bomcolor = (bom > 0) ? #388e3c : (bom < 0) ? #f7525f : #f7525f
+sigcolor = (sig > 10) ? #00160e : (sig  >-10) ? #5d606b : (sig < -10) ? #ff0022 : #ff0022
+
+//------------------------------------------------------------------------------------------------------------------------------------------------------------------
+//Plots
+//------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+//BOM
+bomplot = plot(bom, color=bomcolor, transp=40, style=area, title="Volume")
+
+//Signal Line
+plot(sig, color=sigcolor, transp=5, style=line, linewidth=3, title="Volume Trend")
+
+
+//Chande (addon by Tarcus)
+
+length = input(5, minval=1, title="Chande MO")
+src = input(ohlc4, "Chande Source", type = source)
+momm = change(src)
+f1(m) => m >= 0.0 ? m : 0.0
+f2(m) => m >= 0.0 ? 0.0 : -m
+m1 = f1(momm)
+m2 = f2(momm)
+sm1 = sum(m1, length)
+sm2 = sum(m2, length)
+percent(nom, div) => 100 * nom / div
+chandeMO = percent(sm1-sm2, sm1+sm2)
+plot(chandeMO, "Chande MO", color=#0c3299, linewidth=3, transp=5)
+
+EOB1 = hline(100, "EOB", color=green, linestyle=dotted)
+EOB2 = hline(90, "EOB", color=green,  linestyle=dotted)
+Resist1 = hline(10, "EOB", color=#000000,  linestyle=dotted)
+Resist2 = hline(-10, "EOS", color=#000000,  linestyle=dotted)
+EOS1 = hline(-90, "EOS", color=red,  linestyle=dotted)
+EOS2 = hline(-100, "EOS", color=red, linestyle=dotted)
+
+fill(EOB1, EOB2, color=green, transp=60)
+fill(Resist1, EOB2, color=green, transp=85)
+fill(Resist2, EOS1, color=red, transp=85)
+fill(EOS1, EOS2, color=red, transp=60)
