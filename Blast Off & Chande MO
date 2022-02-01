@@ -24,13 +24,6 @@ per = input(defval=3, minval=1, title="Blast Off Periods")
 //Signal Period
 sigper = input(defval=3, minval=1, title="Momentum Line")
 
-//Threshold Distance
-tdist = input(defval=10, minval=0, title="Threshold/Resistance")
-
-//------------------------------------------------------------------------------------------------------------------------------------------------------------------
-//Definitions
-//------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
 //Blast Off Momentum
 BOM(t1, t2)=>
     ocrng = close - open
