@@ -1,0 +1,61 @@
+//@version=5
+indicator('AT-Fibs', shorttitle='AT-Fibs', overlay=true)
+
+/////Automatic Fibs from ATL = 0 to ATH just load to chart and it will self update.
+
+
+////////////
+// INPUTS //
+
+show_ath   = input(false,  "Show All Time High?")
+
+///////////////
+// FUNCTIONS //
+
+// all-time high function
+get_all_time_high() =>
+    h  = 0.0
+    t  = 0
+    h := bar_index == 0 ? high : high > h[1] ? high : h[1]
+    t := bar_index == 0 ? time : high > h[1] ? time : t[1]
+    [h, t]
+
+// getting all-time high/low    
+[ath, ath_dt] = request.security(syminfo.tickerid, 'D', get_all_time_high())
+
+ath_days = math.round((timenow - ath_dt) / 86400000)
+
+// plotting
+if show_ath
+    lATH=line.new(bar_index - 1, ath, bar_index, ath, extend = extend.both, color = #b71c1c)
+    line.delete(lATH[1])
+
+
+High = ath
+Low = 0
+
+//Major Harmonics From Swing Low
+FibHigh = (High * 0)
+FibLow886= (High-Low)*0.886+Low
+FibLow786= (High-Low)*0.786+Low
+FibLow70= (High-Low)*0.70+Low
+FibLow618= (High-Low)*0.618+Low
+FibLow50= (High-Low)*0.5+Low
+FibLow382= (High-Low)*0.382+Low
+FibLow236= (High-Low)*0.236+Low
+FibLow114= (High-Low)*0.114+Low
+FibLow = (Low * 0)
+
+plot(High, color=#b71c1c, transp= 25, title="100%", linewidth=3)
+plot(FibLow886, color=#b71c1c, transp= 25, title="88.6%", linewidth=3)
+plot(FibLow786, color=#b71c1c, transp= 25, title="78.6%", linewidth=3)
+plot(FibLow70, color=#e65100, transp= 25, title="70%", linewidth=3)
+plot(FibLow618,color=#e65100, transp= 25, title="61.8%", linewidth=3)
+plot(FibLow50, color=#e65100, transp= 25, title="50%", linewidth=3)
+plot(FibLow382, color=#1b5e20, transp= 25, title="38.2%", linewidth=3)
+plot(FibLow236, color=#1b5e20, transp= 25, title="23.6%", linewidth=3)
+plot(FibLow114, color=#0c3299, transp= 25, title="11.4%", linewidth=3)
+plot(Low, color=#0c3299, transp= 25, title="0%", linewidth=3)
+
+//alerts
+alertcondition(ta.crossover(high, ath), 'All-time High!', 'All-time High!')
