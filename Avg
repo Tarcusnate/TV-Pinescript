@@ -1,0 +1,116 @@
+//@version=4
+study(shorttitle="Avg", title="Avg", overlay=true)
+
+len1 = input(1, minval=1, title="MA1 Length")
+src1 = input(close, title="MA1 Source")
+out1 = sma(src1, len1)
+plot(out1, title="MA1", color=#000000, transp=15, linewidth=1, display=display.none)
+
+len50s = input(50, minval=1, title="MA2 Length")
+src50s = input(close, title="MA2 Source")
+out50s = sma(src50s, len50s)
+plot(out50s, title="SMA50", color=#fff59d, transp=15, linewidth=2)
+
+len100 = input(100, minval=1, title="MA3 Length")
+src100 = input(close, title="MA3 Source")
+out100 = sma(src100, len100)
+plot(out100, title="SMA100", color=#fff9c4, transp=15, linewidth=2)
+
+len200a = input(200, minval=1, title="MA4 Length")
+src200a = input(close, title="MA4 Source")
+out200a = sma(src200a, len200a)
+plot(out200a, title="SMA200", color=#f77c80, transp=15, linewidth=2)
+
+len300a = input(300, minval=1, title="MA5 Length")
+src300a = input(close, title="MA5 Source")
+out300a = sma(src300a, len300a)
+plot(out300a, title="SMA300", color=#faa1a4, transp=15, linewidth=2)
+
+GoldenCross = crossover(out50s, out200a)
+DeathCross = crossunder(out50s, out200a)
+
+plotshape(title= "Golden Cross", series = GoldenCross, location=location.top, style=shape.cross, size= size.small, color=#005006, transp=15, text="Golden Cross", size=size.normal)
+plotshape(title= "Death Cross", series = DeathCross, location=location.top, style=shape.cross, size= size.small, color=#b71c1c, transp=15, text="Death Cross", size=size.normal)
+
+len5 = input(5, minval=1, title="EMA1 Length")
+src5 = input(close, title="EMA1 Source")
+out5 = ema(src5, len5)
+a= plot(out5, title="EMA5 ML", color=#3179f5, transp=15, linewidth=2)
+
+len8 = input(8, minval=1, title="EMA2 Length")
+src8 = input(close, title="EMA2 Source")
+out8 = ema(src8, len8)
+b= plot(out8, color=#1848cc, transp= 15, linewidth=2, title="EMA8 ML")
+
+fill(a,b,color=#0c3299,transp=80)
+
+len13 = input(13, minval=1, title="EMA3 Length")
+src13 = input(close, title="EMA3 Source")
+out13 = ema(src13, len13)
+plot(out13, title="EMA13", color=#4caf50, transp=15, linewidth=2)
+
+//ema retracement
+
+len50 = input(50, minval=1, title="EMA4 Fib Length")
+src50 = input(close, title="EMA4 Fib Source")
+out50 = ema(src50, len50)
+multc = input(3.0, title="EMA4 xFibs")
+devc = multc * stdev(src50, len50)
+normalc= out50 + (0*devc)
+shallow_Uc= out50 + (0.382*devc)
+upper_0c= out50 + (0.50*devc)
+upper_1c= out50 + (0.618*devc)
+upper_2c= out50 + (0.70*devc)
+upper_3c= out50 + (0.886*devc)
+shallow_Lc= out50 - (0.382*devc)
+lower_0c= out50 - (0.50*devc)
+lower_1c= out50 - (0.618*devc)
+lower_2c= out50 - (0.70*devc)
+lower_3c= out50 - (0.886*devc)
+lower_4c= out50 - (1.0*devc)
+
+plot(upper_2c, color=#ffeb3b, transp= 15, linewidth=1, title="EMA50 +70%", display=display.none)
+plot(upper_1c, color=#ffeb3b, transp= 15, linewidth=1, title="EMA50 +61.8%", display=display.none)
+plot(upper_0c, color=#ffeb3b, transp= 15, linewidth=1, title="EMA50 +50%", display=display.none)
+plot(shallow_Uc, color=#ffeb3b, transp= 15, linewidth=1, title="EMA50 +38.2%", display=display.none)
+plot(out50, color=#ffeb3b, transp= 15, linewidth=2, title="EMA50")
+plot(shallow_Lc, color=#ffeb3b, transp= 15, linewidth=1, title="EMA50 -38.2%", display=display.none)
+plot(lower_0c, color=#ffeb3b, transp= 15, linewidth=1, title="EMA50 -50%", display=display.none)
+plot(lower_1c, color=#ffeb3b, transp= 15, linewidth=1, title="EMA50 -61.8%", display=display.none)
+plot(lower_2c, color=#ffeb3b, transp= 15, linewidth=1, title="EMA50 -70%", display=display.none)
+plot(lower_3c, color=#ffeb3b, transp= 15, linewidth=1, title="EMA50 -88.6%", display=display.none)
+plot(lower_4c, color=#ffeb3b, transp= 15, linewidth=1, title="EMA50 -100%", display=display.none)
+
+len200 = input(200, minval=1, title="EMA5 Length")
+src200 = input(close, title="EMA5 Source")
+out200 = ema(src200, len200)
+plot(out200, color=#760000, transp= 15, linewidth=2, title="EMA200")
+
+len300 = input(300, minval=1, title="EMA6 Length")
+src300 = input(close, title="EMA6 Source")
+out300 = ema(src300, len300)
+plot(out300, title="EMA300", color=#f48fb1, transp=15, linewidth=1)
+
+len400 = input(400, minval=1, title="EMA7 Length")
+src400 = input(close, title="EMA7 Source")
+out400 = ema(src400, len400)
+plot(out400, title="EMA400", color=#f06292, transp=15, linewidth=1)
+
+len600 = input(600, minval=1, title="EMA8 Length")
+src600 = input(close, title="EMA8 Source")
+out600 = ema(src600, len600)
+plot(out600, title="EMA600", color=#ec407a, transp=15, linewidth=1)
+
+len800 = input(800, minval=1, title="EMA9 Length")
+src800 = input(close, title="EMA9 Source")
+out800 = ema(src800, len800)
+plot(out800, color=#e91e63, transp= 15, linewidth=1, title="EMA800")
+
+//macd
+fa=input(5, title="MACD Fast")
+sa=input(8, title="MACD Slow")
+macdX=ema(close, sa-fa)
+sigX=input(16, title="MACD Smoothing")
+signalX=ema(macdX, sigX)
+p1=plot(macdX, color=#08ff12, transp=40,linewidth=2, title="MACD 5/8", style=plot.style_line)
+p2=plot(signalX, color=#b71c1c, transp=40, style=plot.style_line, linewidth=2, title="MACD Signal")
