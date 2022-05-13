@@ -1,0 +1,88 @@
+//@version=3
+study("MTF",overlay=true)
+
+SMA200Di = sma(close, 200)
+SMA50Di = sma(close, 50)
+EMA200Di = ema(close, 200)
+EMA50Di = ema(close, 50)
+EMA800Di = ema(close, 800)
+
+plot1 = security(tickerid, '60', SMA200Di)
+plot2 = security(tickerid, '60', SMA50Di)
+plot3 = security(tickerid, '60', EMA200Di)
+plot4 = security(tickerid, '60', EMA50Di)
+plot5 = security(tickerid, '60', EMA800Di)
+
+plot(plot1, title= "S200-1H", color=#000000, linewidth=1)
+plot(plot2, title= "S50-1H", color=#000000, linewidth=1)
+plot(plot3, title= "E200-1H", color=#000000, linewidth=1)
+plot(plot4, title= "E50-1H", color=#000000, linewidth=1)
+plot(plot5, title= "E800-1H", color=#000000, linewidth=1)
+
+
+SMA200Dii = sma(close, 200)
+SMA50Dii = sma(close, 50)
+EMA200Dii = ema(close, 200)
+EMA50Dii = ema(close, 50)
+
+plot6 = security(tickerid, '240', SMA200Dii)
+plot7 = security(tickerid, '240', SMA50Dii)
+plot8 = security(tickerid, '240', EMA200Dii)
+plot9 = security(tickerid, '240', EMA50Dii)
+
+plot(plot6, title= "S200-4H", color=#000000, linewidth=1)
+plot(plot7, title= "S50-4H", color=#000000, linewidth=1)
+plot(plot8, title= "E200-4H", color=#000000, linewidth=1)
+plot(plot9, title= "E50-4H", color=#000000, linewidth=1)
+
+SMA200Diii = sma(close, 200)
+SMA50Diii = sma(close, 50)
+EMA200Diii = ema(close, 200)
+EMA50Diii = ema(close, 50)
+SMA300Diii = sma(close, 300)
+EMA300Diii = ema(close, 300)
+
+plot10 = security(tickerid, 'D', SMA200Diii)
+plot11 = security(tickerid, 'D', SMA50Diii)
+plot12 = security(tickerid, 'D', EMA200Diii)
+plot13 = security(tickerid, 'D', EMA50Diii)
+plot14 = security(tickerid, 'D', SMA300Diii)
+plot15 = security(tickerid, 'D', EMA300Diii)
+
+plot(plot10, title= "S200D", color=#000000, linewidth=1)
+plot(plot11, title= "S50D", color=#000000, linewidth=1)
+plot(plot12, title= "E200D", color=#000000, linewidth=1)
+plot(plot13, title= "E50D", color=#000000, linewidth=1)
+plot(plot14, title= "S300D", color=#000000, linewidth=1)
+plot(plot15, title= "E300D", color=#000000, linewidth=1)
+
+
+SMA200W = sma(close, 200)
+SMA50W = sma(close, 50)
+EMA200W = ema(close, 200)
+EMA50W = ema(close, 50)
+EMA300W = ema(close, 300)
+EMA400W = ema(close, 400)
+SMA20W = sma(close, 20)
+EMA21W = ema(close, 21)
+
+
+plot16 = security(tickerid, 'W', SMA200W)
+plot17 = security(tickerid, 'W', SMA50W)
+plot18 = security(tickerid, 'W', EMA200W)
+plot19 = security(tickerid, 'W', EMA50W)
+plot20 = security(tickerid, 'W', EMA300W)
+plot21 = security(tickerid, 'W', EMA400W)
+plot22 = security(tickerid, 'W', SMA20W)
+plot23 = security(tickerid, 'W', EMA21W)
+
+plot(plot16, title= "S200W", color=#000000, linewidth=1)
+plot(plot17, title= "S50W", color=#000000, linewidth=1)
+plot(plot18, title= "E200W", color=#000000, linewidth=1)
+plot(plot19, title= "E50W", color=#000000, linewidth=1)
+plot(plot20, title= "E300W", color=#000000, linewidth=1)
+plot(plot21, title= "E400W", color=#000000, linewidth=1)
+c= plot(plot22, title="S20W BMS", color=#81c784, transp=15, linewidth=2)
+d= plot(plot23, title="E21W BMS", color=#66bb6a, transp=15, linewidth=3)
+fill(c,d,color=#66bb6a,transp=85)
+
