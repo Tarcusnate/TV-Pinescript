@@ -114,3 +114,12 @@ sigX=input(16, title="MACD Smoothing")
 signalX=ema(macdX, sigX)
 p1=plot(macdX, color=#08ff12, transp=40,linewidth=2, title="MACD 5/8", style=plot.style_line)
 p2=plot(signalX, color=#b71c1c, transp=40, style=plot.style_line, linewidth=2, title="MACD Signal")
+
+MACDXBull= crossover(macdX,signalX)
+MACDXBear= crossover(signalX,macdX)
+
+plotchar(MACDXBull, title="MACD X Bull", color=#1b5e20, transp=15, char='☒', location=location.bottom, size=size.small)
+plotchar(MACDXBear, title="MACD X Bear", color=#b71c1c, transp=15, char='☒', location=location.bottom, size=size.small)
+
+
+alertcondition(MACDXBull or GoldenCross or DeathCross , title="MACD or Golden, Death Cross", message="MACD or Golden, Death Cross")
