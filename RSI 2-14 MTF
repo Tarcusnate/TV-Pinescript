@@ -1,0 +1,72 @@
+//@version=4
+study(title="RSI MTF", shorttitle="RSI MTF", overlay=false)
+
+source = close
+lengthRsi0 = input(2)
+lengthRsi1 = input(2)
+lengthRsi2 = input(2)
+lengthRsi3 = input(2)
+lengthRsi4 = input(2)
+lengthRsi5 = input(2)
+lengthRsi6 = input(2)
+lengthRsi7 = input(2)
+lengthRsim = input(14)
+
+Res0 = input(title='Resolution 0', type=input.resolution, defval="3")
+Res1 = input(title='Resolution 1', type=input.resolution, defval="15")
+Res2 = input(title='Resolution 2', type=input.resolution, defval="60")
+Res3 = input(title='Resolution 3', type=input.resolution, defval="240")
+Res4 = input(title='Resolution 4', type=input.resolution, defval="480")
+Res5 = input(title='Resolution 5', type=input.resolution, defval="720")
+Res6 = input(title='Resolution 6', type=input.resolution, defval="D")
+Res7 = input(title='Resolution 7', type=input.resolution, defval="W")
+
+rsi0 = security(syminfo.tickerid, Res0, rsi(source, lengthRsi0))
+rsi1 = security(syminfo.tickerid, Res1, rsi(source, lengthRsi1))
+rsi2 = security(syminfo.tickerid, Res2, rsi(source, lengthRsi2))
+rsi3 = security(syminfo.tickerid, Res3, rsi(source, lengthRsi3))
+rsi4 = security(syminfo.tickerid, Res4, rsi(source, lengthRsi4))
+rsi5 = security(syminfo.tickerid, Res5, rsi(source, lengthRsi5))
+rsi6 = security(syminfo.tickerid, Res6, rsi(source, lengthRsi6))
+rsi7 = security(syminfo.tickerid, Res6, rsi(source, lengthRsi7))
+rsim = rsi(source, lengthRsim)
+
+RSIcolor0 = (rsi0 >= 50) ? #388e3c : (rsi0 < 50) ? #f7525f : #f7525f
+RSIcolor1 = (rsi1 >= 95) ? #005006 : (rsi1 >= 50) ? #388e3c : (rsi1 > 5) ? #f7525f : (rsi1 <= 5) ? #b71c1c : #b71c1c
+RSIcolor2 = (rsi2 >= 95) ? #005006 : (rsi2 >= 50) ? #388e3c : (rsi2 > 5) ? #f7525f : (rsi2 <= 5) ? #b71c1c : #b71c1c
+RSIcolor3 = (rsi3 >= 95) ? #005006 : (rsi3 >= 50) ? #388e3c : (rsi3 > 5) ? #f7525f : (rsi3 <= 5) ? #b71c1c : #b71c1c
+RSIcolor4 = (rsi4 >= 95) ? #005006 : (rsi4 >= 50) ? #388e3c : (rsi4 > 5) ? #f7525f : (rsi4 <= 5) ? #b71c1c : #b71c1c
+RSIcolor5 = (rsi5 >= 95) ? #005006 : (rsi5 >= 50) ? #388e3c : (rsi5 > 5) ? #f7525f : (rsi5 <= 5) ? #b71c1c : #b71c1c
+RSIcolor6 = (rsi6 >= 95) ? #005006 : (rsi6 >= 50) ? #388e3c : (rsi6 > 5) ? #f7525f : (rsi6 <= 5) ? #b71c1c : #b71c1c
+RSIcolor7 = (rsi7 >= 95) ? #005006 : (rsi7 >= 50) ? #388e3c : (rsi7 > 5) ? #f7525f : (rsi7 <= 5) ? #b71c1c : #b71c1c
+RSIcolor5m = (rsim >= 70) ? #005006 : (rsim >= 50) ? #388e3c : (rsim > 30) ? #f7525f : (rsim <= 30) ? #b71c1c : #b71c1c
+
+Overbought= (rsi2 >= 95 or rsi3 >= 95 or rsi4 >= 95 or rsi5 >= 95 or rsi6 >= 95 or rsi7 >= 95 or rsim >= 70)
+Oversold= (rsi2 <= 5 or rsi3 <= 5 or rsi4 <= 5 or rsi5 <= 5 or rsi6 <= 5 or rsi7 <= 5 or rsim <= 30)
+
+plot(rsi0, title="2P- 3m", color=RSIcolor0, linewidth=2)
+plot(rsi1, title="2P- 15m", color=RSIcolor1, linewidth=2)
+plot(rsi2, title="2P- 1H", color=RSIcolor2, linewidth=2)
+plot(rsi3, title="2P- 4H", color=RSIcolor3, linewidth=2)
+plot(rsi4, title="2P- 8H", color=RSIcolor4, linewidth=2)
+plot(rsi5, title="2P- 12H", color=RSIcolor5, linewidth=2)
+plot(rsi6, title="2P- 1D", color=RSIcolor6, linewidth=2)
+plot(rsi7, title="2P- 1W", color=RSIcolor7, linewidth=2)
+plot(rsim, title="14P", color=RSIcolor5m, linewidth=2)
+
+band6 = hline(100,  color=color.new(#4CAF50, 25), linestyle=hline.style_solid, title="Top OB")
+band5 = hline(95,  color=color.new(#4CAF50, 25), linestyle=hline.style_dashed, title="Top OB")
+band4 = hline(70,  color=color.new(#4CAF50, 25), linestyle=hline.style_dashed, title="Normal OB")
+bandm = hline(50,  color=color.new(#000000, 25), linestyle=hline.style_dotted,  title="Baseline")
+band3 = hline(30,  color=color.new(#FF5252, 25), linestyle=hline.style_dashed, title="Normal OS")
+band2 = hline(5, color=color.new(#FF5252, 25), linestyle=hline.style_dashed, title="Bottom OS")
+band1 = hline(0, color=color.new(#FF5252, 25), linestyle=hline.style_solid, title="Bottom OS")
+
+fill(band6, band5, color=color.new(#4CAF50, 40), title="Top OB")
+fill(band5, band4, color=color.new(#4CAF50, 80), title="Top OB")
+fill(bandm, band4, color=color.new(#4CAF50, 100), title="Normal OB")
+fill(bandm, band3, color=color.new(#FF5252, 100), title="Normal OS")
+fill(band3, band2, color=color.new(#FF5252, 80), title="Bottom OS")
+fill(band2, band1, color=color.new(#FF5252, 40), title="Bottom OS")
+
+alertcondition(Overbought or Oversold, title= "Overbought or Oversold", message="Overbought or Oversold")
