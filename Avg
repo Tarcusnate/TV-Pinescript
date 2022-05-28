@@ -87,7 +87,13 @@ plot(lower_4c, color=#ffeb3b, transp= 15, linewidth=1, title="EMA50 -100%", disp
 len200 = input(200, minval=1, title="EMA5 Length")
 src200 = input(close, title="EMA5 Source")
 out200 = ema(src200, len200)
-plot(out200, color=#760000, transp= 15, linewidth=2, title="EMA200")
+c=plot(out200, color=#760000, transp= 15, linewidth=2, title="EMA200")
+
+len233 = input(233, minval=1, title="EMA7 Length")
+src233 = input(close, title="EMA6 Source")
+out233 = ema(src233, len233)
+d=plot(out233, color=#760000, transp= 15, linewidth=3, title="EMA233")
+fill(c,d,color=#b72b2b,transp=80)
 
 len300 = input(300, minval=1, title="EMA6 Length")
 src300 = input(close, title="EMA6 Source")
@@ -121,7 +127,7 @@ p2=plot(signalX, color=#b71c1c, transp=40, style=plot.style_line, linewidth=2, t
 MACDXBull= crossover(macdX,signalX)
 MACDXBear= crossover(signalX,macdX)
 
-plotchar(MACDXBull, title="MACD X Bull", color=#1b5e20, transp=15, char='☒', location=location.bottom, size=size.small)
-plotchar(MACDXBear, title="MACD X Bear", color=#b71c1c, transp=15, char='☒', location=location.bottom, size=size.small)
+plotchar(MACDXBull, title="MACD X Bull", color=#1b5e20, transp=15, char='☒', location=location.bottom, size=size.tiny)
+plotchar(MACDXBear, title="MACD X Bear", color=#b71c1c, transp=15, char='☒', location=location.bottom, size=size.tiny)
 
 alertcondition(MACDXBull or GoldenCross or DeathCross , title="MACD or Golden, Death Cross", message="MACD or Golden, Death Cross")
