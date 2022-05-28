@@ -1,3 +1,4 @@
+
 //@version=4
 study(shorttitle="Avg", title="Avg", overlay=true)
 
@@ -51,10 +52,10 @@ plot(out13, title="EMA13", color=#4caf50, transp=15, linewidth=2)
 
 //ema retracement
 
-len50 = input(50, minval=1, title="EMA4 Fib Length")
-src50 = input(close, title="EMA4 Fib Source")
+len50 = input(50, minval=1, title="EMA3 Fib Length")
+src50 = input(close, title="EMA3 Fib Source")
 out50 = ema(src50, len50)
-multc = input(3.0, title="EMA4 xFibs")
+multc = input(3.0, title="EMA3 xFibs")
 devc = multc * stdev(src50, len50)
 normalc= out50 + (0*devc)
 shallow_Uc= out50 + (0.382*devc)
@@ -62,6 +63,7 @@ upper_0c= out50 + (0.50*devc)
 upper_1c= out50 + (0.618*devc)
 upper_2c= out50 + (0.70*devc)
 upper_3c= out50 + (0.886*devc)
+upper_4c= out50 + (1.0*devc)
 shallow_Lc= out50 - (0.382*devc)
 lower_0c= out50 - (0.50*devc)
 lower_1c= out50 - (0.618*devc)
@@ -69,11 +71,12 @@ lower_2c= out50 - (0.70*devc)
 lower_3c= out50 - (0.886*devc)
 lower_4c= out50 - (1.0*devc)
 
+plot(upper_3c, color=#ffeb3b, transp= 15, linewidth=1, title="EMA50 +88.6%", display=display.none)
 plot(upper_2c, color=#ffeb3b, transp= 15, linewidth=1, title="EMA50 +70%", display=display.none)
 plot(upper_1c, color=#ffeb3b, transp= 15, linewidth=1, title="EMA50 +61.8%", display=display.none)
 plot(upper_0c, color=#ffeb3b, transp= 15, linewidth=1, title="EMA50 +50%", display=display.none)
 plot(shallow_Uc, color=#ffeb3b, transp= 15, linewidth=1, title="EMA50 +38.2%", display=display.none)
-plot(out50, color=#ffeb3b, transp= 15, linewidth=2, title="EMA50")
+plot(out50, color=#ffeb3b, transp= 15, linewidth=3, title="EMA50")
 plot(shallow_Lc, color=#ffeb3b, transp= 15, linewidth=1, title="EMA50 -38.2%", display=display.none)
 plot(lower_0c, color=#ffeb3b, transp= 15, linewidth=1, title="EMA50 -50%", display=display.none)
 plot(lower_1c, color=#ffeb3b, transp= 15, linewidth=1, title="EMA50 -61.8%", display=display.none)
@@ -112,14 +115,13 @@ sa=input(8, title="MACD Slow")
 macdX=ema(close, sa-fa)
 sigX=input(16, title="MACD Smoothing")
 signalX=ema(macdX, sigX)
-p1=plot(macdX, color=#08ff12, transp=40,linewidth=2, title="MACD 5/8", style=plot.style_line)
-p2=plot(signalX, color=#b71c1c, transp=40, style=plot.style_line, linewidth=2, title="MACD Signal")
+p1=plot(macdX, color=#08ff12, transp=40,linewidth=2, title="MACD 5/8", style=plot.style_line, display=display.none)
+p2=plot(signalX, color=#b71c1c, transp=40, style=plot.style_line, linewidth=2, title="MACD Signal", display=display.none)
 
 MACDXBull= crossover(macdX,signalX)
 MACDXBear= crossover(signalX,macdX)
 
 plotchar(MACDXBull, title="MACD X Bull", color=#1b5e20, transp=15, char='☒', location=location.bottom, size=size.small)
 plotchar(MACDXBear, title="MACD X Bear", color=#b71c1c, transp=15, char='☒', location=location.bottom, size=size.small)
-
 
 alertcondition(MACDXBull or GoldenCross or DeathCross , title="MACD or Golden, Death Cross", message="MACD or Golden, Death Cross")
